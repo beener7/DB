@@ -1,0 +1,61 @@
+/*
+SELECT sname,dept
+FROM student;
+
+SELECT student.sname, enrol.grade
+FROM student,course,enrol
+WHERE course.cno = 'C413' AND student.sno = enrol.sno AND course.cno = enrol.cno;
+
+SELECT prname
+FROM course
+WHERE cname = '화일구조';
+
+SELECT sname
+FROM student
+WHERE dept = '응용소프트웨어공학과' AND `year` = 3;
+
+SELECT student.sname , student.dept, student.`year`
+FROM student,course,enrol
+WHERE enrol.grade = 'A' AND enrol.cno = 'C312' AND student.sno = enrol.sno AND course.cno = enrol.cno
+ORDER BY student.sname ASC;
+
+SELECT student.sname , student.dept, student.`year`
+FROM student,course,enrol
+WHERE course.cname = '데이터베이스' AND enrol.midterm < enrol.final AND enrol.grade != 'F' AND student.sno = enrol.sno AND course.cno = enrol.cno;
+
+SELECT cname,dept,prname
+FROM course
+WHERE dept LIKE '%공학%';
+
+SELECT course.cname, student.sname , student.`year`, student.dept
+FROM student,enrol,course
+WHERE course.dept = '전자공학과'  AND student.sno = enrol.sno AND course.cno = enrol.cno;
+
+SELECT student.sname , course.cname,student.`year`
+FROM student,enrol,course
+WHERE student.dept = '응용소프트웨어공학과' AND (enrol.grade = 'A' OR enrol.grade = 'A+')AND student.sno = enrol.sno AND course.cno = enrol.cno;
+*/
+
+SELECT count(enrol.cno) AS 학생수 
+FROM student,enrol,course
+WHERE course.cname = '데이터베이스'AND student.sno = enrol.sno AND course.cno = enrol.cno;
+
+
+SELECT course.cname , AVG(enrol.midterm) AS 중간평균
+FROM student,enrol,course
+WHERE student.sno = enrol.sno AND course.cno = enrol.cno
+GROUP BY course.cname ;
+
+SELECT course.cname , AVG(enrol.final) AS 기말평균
+FROM student,enrol,course
+WHERE student.sno = enrol.sno AND course.cno = enrol.cno
+GROUP BY course.cname HAVING COUNT(enrol.cno) > 4;
+
+/* 미완
+SELECT student.dept, COUNT(student.dept) AS A이상학생수
+FROM student,enrol,course
+WHERE student.sno = enrol.sno AND course.cno = enrol.cno
+GROUP BY student.dept HAVING COUNT (enrol.grade = 'A' OR enrol.grade = 'A+')
+ORDER BY student.dept DESC;
+*/
+
