@@ -1,0 +1,89 @@
+/*SELECT bn ,COUNT(distinct cn) AS 지점별예금자수 
+FROM account,depositor
+WHERE depositor.an = account.an
+GROUP BY bn;
+*/
+/* 미완 
+SELECT bn
+FROM account
+GROUP BY balance HAVING balance > 600
+*/ 
+/*
+SELECT distinct cn
+FROM depositor
+WHERE cn IN (SELECT cn FROM borrower );
+
+SELECT DISTINCT cn
+FROM borrower
+WHERE cn not IN (SELECT cn FROM depositor);
+*/
+/*
+SELECT DISTINCT cn
+FROM borrower,loan
+WHERE borrower.ln = loan.ln AND bn = "Perryridge" AND (bn,cn) IN
+(SELECT bn,cn FROM depositor,account WHERE depositor.an = account.an); 
+*/
+/*
+SELECT DISTINCT T.bn
+FROM branch AS T,branch AS S
+WHERE T.assets > S.assets AND S.bc = 'Brooklyn';
+*/
+/*
+SELECT bn
+	FROM branch
+	WHERE assets > SOME 
+		(SELECT assets
+		FROM branch 
+		WHERE bc='Brooklyn');
+*/
+/*
+SELECT bn
+	FROM branch
+	WHERE assets > ALL
+		(SELECT assets
+		FROM branch
+		WHERE bc = 'brooklyn');
+*/
+/*brooklyn에 위치한 모든 지점에 예금이 있는 고객*/
+/*SELECT DISTINCT S.cn
+	FROM depositor AS S
+	WHERE NOT EXISTS(
+			(SELECT bn
+			FROM branch
+			WHERE bc ='Brooklyn' 
+			AND bn NOT IN 
+				(SELECT R.bn
+				FROM depositor T,account R
+				WHERE T.an = R.an AND S.cn = T.cn)));
+	*/
+	/*Perryridge지점에 하나의 계좌만 가진 모든 고객*/
+/* unique 적용 안될수도 있어서 오류남
+SELECT T.cn
+	FROM depositor AS T
+	WHERE UNIQUE(
+		SELECT R.cn
+		FROM account,depositor AS R
+		WHERE T.cn = R.cn
+			AND R.an = account.an
+			AND account.bn = 'Perryridge');
+*/
+/*
+SELECT T.cn 
+	FROM depositor T
+	WHERE 1 = (SELECT COUNT(R.cn)
+				FROM account A, depositor R
+				WHERE T.cn = R.cn
+					AND R.an = A.an
+					AND A.bn = 'Perryridge');
+*/
+/*유도 릴레이션 -> 평균 예금 잔고가 600불을 초과하는 
+지점들의 평균 예금 잔고를 찾아라*/
+/*SELECT bn,mean 
+	FROM 
+		(SELECT bn,AVG(balance) AS mean
+		FROM account
+		GROUP BY bn) AS result
+	WHERE mean > 600;
+*/
+
+
