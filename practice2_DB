@@ -35,6 +35,7 @@ WHERE cn IN (SELECT cn
 				 
 				 
 /*고객 별 총 예금액이 1000을 넘는 고객명과 총 예금액, 거주도시 ,거주거리를 검색하디 고객명의 내림차순으로 정렬*/
+/*그룹바이를 안써서 수정해야됨*/
 SELECT cn,cc,cs
 FROM customer 
 WHERE cn IN (SELECT cn FROM account,depositor WHERE account.an = depositor.an 
